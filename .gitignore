@@ -1,2 +1,6 @@
-*.xy
+#ignore env
+mlmsaEnv/
 
+#ignore data
+*.xy
+Sample data/
