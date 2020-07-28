@@ -3,6 +3,14 @@ from pyopenms import *
 from scipy.spatial.distance import euclidean
 from operator import itemgetter
 
+#Remove line breaks from plain text data
+def remove_breaks(lines):
+    for index in range(len(lines)):
+        line = lines[index]
+        if line[-1] == "\n":
+            lines[index] = line[0:-1]
+    return(lines)
+
 #Combines several spectra (separated by time) into a single overall spectrum for that experiment
 def sum_spectra(spectra):
     summed_peaks = {}
