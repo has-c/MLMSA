@@ -2,11 +2,12 @@ import pandas
 
 #bonding_agent: either Ub, Cis, Trans, Ox
 def ground_truth(bonding_agent):
-
-    tolerance = 10 #30 Da
+    
+    base_url = "Data//Ground Truth//"
+    tolerance = 10 #in Da
 
     if bonding_agent == 'Ub':
-
+        
 
     pass
 
