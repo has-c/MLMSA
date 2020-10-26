@@ -13,20 +13,32 @@
     <h1> Binding Site Prediction</h1>
 
     <br>
-
-    <!-- Upload functionality -->
-	<form method=POST class="form-signin" enctype=multipart/form-data
-		action="{{ url_for('upload') }}">
-		
-		<div class="form-label-group">
-			<div class="custom-file">
-				<input type=file name=file id="file" class="custom-file-input">
-				<label class="custom-file-label" for="file">Choose file</label>
+	
+	<div>
+	
+		<!-- Upload functionality -->
+		<form method=POST class="form-signin" enctype=multipart/form-data
+			action="{{ url_for('upload') }}">
+			
+			<div class="form-label-group">
+				<div class="custom-file">
+					<input type=file name=file id="file" class="custom-file-input">
+					<label class="custom-file-label" for="file">Choose file</label>
+				</div>
 			</div>
-		</div>
-		<button type="submit"
-			class="btn btn-primary btn-block">Submit</button>
-	</form>
+			<button type="submit"
+				class="btn btn-primary btn-block">Submit</button>
+		</form>
+	
+	</div>
+	
+	<script>
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
 	
 	{% extends "warnings.html" %}
   {% block content %}
