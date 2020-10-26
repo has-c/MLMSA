@@ -56,5 +56,19 @@ def upload():
     return render_template("home.html", filename=filename_secure)
     
     
+#download code 
+@app.route("/download/<filename>", methods=["GET", "POST"])
+def download(filename):
+    if filename != "":
+        return send_file(download_path + filename + ".docx", as_attachment=True)
+    else:
+        return render_template("home.html")
+
+
+@app.route("/download/", methods=["GET", "POST"])
+def download_blank():
+    return render_template("home.html")
+    
+    
 if __name__ == "__main__":
     app.run(debug=True)
