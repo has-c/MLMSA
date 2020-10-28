@@ -12,24 +12,31 @@
   <body>
     <h1> Binding Site Prediction</h1>
 
-    <br>
-	
+	<!-- Upload functionality -->
 	<div>
-	
-		<!-- Upload functionality -->
 		<form method=POST class="form-signin" enctype=multipart/form-data
 			action="{{ url_for('upload') }}">
-			
+			<p> Note: files must all be excel spreadsheets (.xlsx)</p>
 			<div class="form-label-group">
 				<div class="custom-file">
-					<input type=file name=file id="file" class="custom-file-input">
-					<label class="custom-file-label" for="file">Choose file</label>
+					<input type=file name=bound_file id="file" class="custom-file-input">
+					<label class="custom-file-label" for="bound_file">Choose unbound mass spectrometry data file</label>
+        </div>
+        <br> </br>
+        <div class="custom-file">
+					<input type=file name=unbound_file id="file" class="custom-file-input">
+					<label class="custom-file-label" for="unbound_file">Choose unbound mass spectrometry data file</label>
+        </div>
+        <br> </br>
+        <div class="custom-file">
+					<input type=file name=compound_file id="file" class="custom-file-input">
+					<label class="custom-file-label" for="compound_file">Choose compounds constraint file</label>
 				</div>
-			</div>
+      </div>
+      <br> </br>
 			<button type="submit"
 				class="btn btn-primary btn-block">Submit</button>
 		</form>
-	
 	</div>
 	
 	<script>
@@ -38,7 +45,10 @@
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
-    </script>
+  </script>
+
+  <!-- Download link for processed file -->
+  
 	
 	{% extends "warnings.html" %}
   {% block content %}
