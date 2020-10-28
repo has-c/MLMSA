@@ -47,7 +47,12 @@
         });
   </script>
 
+  <br> </br>
   <!-- Download link for processed file -->
+
+  {% if analysis_complete %}
+  <a href="{{ url_for('download', filename="BindingSites.xlsx") }}">Download the results here</a>
+  {% endif %}
   
 	
 	{% extends "warnings.html" %}
