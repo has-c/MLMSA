@@ -1,6 +1,8 @@
 import os
-from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory
+from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory, send_file 
 from werkzeug.utils import secure_filename
+import config
+from Binding_Site_Search import search
 
 ALLOWED_EXTENSIONS = {'xlsx', 'csv'}
 
@@ -32,9 +34,9 @@ def upload():
 
     if request.method == "POST":
         # grab filename
-        unbound_filename = request.files["unbound_file"].filename
-        bound_filename = request.files["bound_file"].filename
-        compound_file = request.files["compound_file"].filename
+        unbound_filename = config.unbound_filename
+        bound_filename = config.bound_filename
+        compound_file = config.compounds_list_filename
 
         if unbound_filename == "" or bound_filename == "" or compound_file == "":
             # nothing is uploaded
@@ -52,27 +54,34 @@ def upload():
         # to do - permission error when trying to save file to uploads folder
         download_uploaded_file(bound_filename, request, "bound_file")
         download_uploaded_file(unbound_filename, request, "unbound_file")
-        download_uploaded_file(compound_file, request, "unbound_file")
+        download_uploaded_file(compound_file, request, "compound_file")
 
         # run external python module
-        
+        #create file paths to read the file
+        bound_file_path = os.path.join(upload_path, bound_filename)
+        unbound_file_path = os.path.join(upload_path, unbound_filename)
+        compounds_file_path = os.path.join(upload_path, compound_file)
+
+        binding_site_df = search(bound_file_path, unbound_file_path, compounds_file_path)
 
         # download
+        outputs = os.path.join(path, download_path)
+        outputs = os.path.join(outputs, "BindingSites.xlsx")
+        binding_site_df.to_excel(outputs, index=False)
         analysis_complete = True
 
     return render_template("home.html", analysis_complete=analysis_complete)
 
 def download_uploaded_file(filename, request, file_id):
-    filename_secure = secure_filename(filename)
-    request.files[file_id].save(os.path.join(upload_path, filename_secure))
+    request.files[file_id].save(os.path.join(upload_path, filename))
     
 
-@app.route('/downloads/<path:filename>', methods=['GET', 'POST'])
+@app.route('/download/<filename>', methods=['GET', 'POST'])
 def download(filename): 
     # Appending app path to upload folder path within app root folder
     outputs = os.path.join(path, download_path)
     # Returning file from appended path
-    return send_from_directory(directory=outputs, filename=filename)
+    return send_from_directory(directory=outputs, filename=filename,as_attachment=True)
     
     
 if __name__ == "__main__":

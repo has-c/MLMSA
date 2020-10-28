@@ -15,6 +15,7 @@ def match_peaks(peaks, binding_df):
 
     for idx in peaks.index:
         mass = peaks.loc[idx, "m/z"]
+        intensity = peaks.loc[idx, "I"]
 
         lower_bound = np.round(mass - config.tolerance)
         upper_bound = np.round(mass + config.tolerance)
@@ -23,7 +24,8 @@ def match_peaks(peaks, binding_df):
         number_of_searches = np.sum(search_mask)
         
         if number_of_searches > 0:
-            binding_site_df = binding_site_df.append(binding_df[search_mask], ignore_index=True)
+            binding_sites = binding_df[search_mask]
+            binding_site_df = binding_site_df.append(binding_sites, ignore_index=True)
 
     return binding_site_df
     
