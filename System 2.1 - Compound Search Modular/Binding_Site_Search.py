@@ -22,12 +22,16 @@ def search(bound_file_path, unbound_file_path, compounds_file_path):
     #find peaks 
     peaks = peak_find(bound_df)
 
+    peaks.to_csv("peaks.csv")
+
     #create theoretical binding site list
     binding_df = create_binding_list(other_compounds_df, protein_df)
 
     #filter list using max value
     max_binding_mass = np.max(binding_df["Mass"]) #maximum possible mass from all theoretical binding sites
     peaks = peaks[peaks["m/z"] < max_binding_mass] #remove incorrect peaks
+
+    binding_df.to_csv("binding.csv")
 
     #match peaks to theoretical list
     binding_sites_df = match_peaks(peaks, binding_df)
