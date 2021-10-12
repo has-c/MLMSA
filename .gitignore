@@ -1,5 +1,6 @@
 #ignore env
 msenv/
+local_ocr_env/
 
 #ignore data files
 *.pdf

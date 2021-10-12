@@ -6,14 +6,21 @@ from Binding_Site_Search import search
 
 ALLOWED_EXTENSIONS = {'xlsx', 'csv'}
 
-path = os.path.dirname(os.path.abspath(__file__))
+path = os.path.abspath(os.path.dirname(__file__))
+
+#to-do: add create directories function in config file
 try:
     os.mkdir("uploads")
 except FileExistsError:
     pass
 
-upload_path = path + "/uploads/"
-download_path = path + "/outputs/"
+try:
+    os.mkdir("outputs")
+except FileExistsError:
+    pass
+
+upload_path = os.path.join(path, "uploads")
+download_path = os.path.join(path, "outputs")
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
